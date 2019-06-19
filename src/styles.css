@@ -1,0 +1,67 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #DADADA;
+  background-image: url('https://s3.amazonaws.com/ooomf-com-files/wjNV6gWuQkqeuH8txHc9_sylwiabartyzel_unsplash_tatry_03.jpg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.header .pure-menu {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2em;
+  line-height: 2;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+.header .pure-menu-list {
+  margin-left: auto;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  max-width: 480px;
+  width: 100%;
+  margin: auto;
+  padding: 15px;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3);
+  transform: translateY(-3em);
+}
+.login-form .pure-group {
+  position: relative;
+}
+.login-form .icon {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  color: #DADADA;
+  pointer-events: none;
+  z-index: 2;
+}
+.login-form .icon + input {
+   padding-left: 30px;
+}
+.login-form legend {
+  font-size: 1.5em;
+  line-height: 1;
+  margin-bottom: 1em;
+  padding-bottom: 0.85em;
+}
+.login-form input,
+.login-form button {
+  width: 100%;
+}
