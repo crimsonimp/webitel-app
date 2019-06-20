@@ -29,3 +29,23 @@
   }
 </script>
 
+<style>
+  .header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .header .pure-menu {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.2em;
+    line-height: 2;
+    background-color: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+  }
+  .header .pure-menu-list {
+    margin-left: auto;
+  }
+</style>
