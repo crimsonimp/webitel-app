@@ -1,13 +1,10 @@
 <template>
   <header class="header">
     <div class="pure-menu pure-menu-horizontal">
-      <a href="" class="pure-menu-heading">BRAND APP</a>
+      <a href="" class="pure-menu-heading pure-menu-link">BRAND</a>
       <ul v-if="isLogged" class="pure-menu-list">
         <li class="pure-menu-item">
-          <small>Welcome, {{user}}</small>
-        </li>
-        <li class="pure-menu-item">
-          <a href="#" v-on:click.prevent="logout" class="pure-menu-link">Log Out</a>
+          <a href="#" v-on:click.prevent="LogOut" class="pure-menu-link">Log Out</a>
         </li>
       </ul>
     </div>
@@ -20,20 +17,14 @@
       return {}
     },
     computed: {
-      user: function(){
-        return this.$store.getters.user;
-      },
       isLogged: function(){
-        return this.$store.getters.isLogged;
+        return false
       }
     },
     methods: {
-      logout: function(){
-        this.$store.dispatch('logout');
+      LoginOut: function(){
+        alert('Log out!')
       }
-    },
-    mounted: function(){
-      console.log(this.user)
     }
   }
 </script>
@@ -56,16 +47,5 @@
   }
   .header .pure-menu-list {
     margin-left: auto;
-  }
-  .header .pure-menu-list,
-  .header .pure-menu-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  .header .pure-menu-link {
-    font-size: 0.8em;
-    line-height: 2.75;
-    color: rgb(66, 184, 221);
   }
 </style>

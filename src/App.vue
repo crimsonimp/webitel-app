@@ -1,20 +1,38 @@
 <template>
   <div class="page">
-    <AppHeader />
-    <LoginForm />
+    <AppHeader :is-logged="isLogged" />
+    <transition name="fade">
+      <Loader v-if="isLoading" />
+      <LoginForm v-if="!isLogged && !isLoading" />
+    </transition>
   </div>
 </template>
 
 <script>
+  import Loader from './components/Loader.vue';
   import AppHeader from './components/Header.vue';
   import LoginForm from './components/Login.vue';
+
   export default {
     components: {
       AppHeader,
-      LoginForm
+      LoginForm,
+      Loader
     },
     data: function(){
-      return {}
+      return {
+        isLoading: true
+      }
+    },
+    computed: {
+      isLogged: function(){
+        return this.$store.getters.isLogged;
+      },
+    },
+    methods: {},
+    mounted: function(){
+      this.isLoading = false;
+      this.$store.dispatch('clearErrors')
     }
   }
 </script>
@@ -30,5 +48,11 @@
     background-position: left center;
     background-attachment: fixed;
     background-size: cover;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
   }
 </style>

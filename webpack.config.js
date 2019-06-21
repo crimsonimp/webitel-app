@@ -1,15 +1,14 @@
-const path = require('path');
+'use strict';
+
 const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const config = {
+module.exports = {
+  mode: 'development',
   entry: [
-    './index.js'
+    './src/index.js'
   ],
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'index.js'
-  },
   devServer: {
     hot: true,
     watchOptions: {
@@ -19,26 +18,29 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        test: /\.vue$/,
+        use: 'vue-loader'
       },
       {
         test: /\.js$/,
         use: 'babel-loader'
       },
       {
-        test: /\.vue$/,
-        use: 'vue-loader'
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+      inject: true
+    })
   ]
-};
-
-module.exports = config;
+}
