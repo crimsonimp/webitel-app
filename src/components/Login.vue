@@ -1,51 +1,59 @@
 <template>
-  <div class="login-form">
+  <section class="login-form">
     <transition name="fade">
       <Loader v-if="isLoading" />
     </transition>
     <form v-on:submit.prevent="submit" class="pure-form">
-      <legend :class="{'error-message': errorMessage}">Auth form{{errorMessage}}</legend>
-      
+      <legend>Auth form</legend>
+
       <fieldset class="icon icon--email">
-        <input v-model="username" v-on:focus="handleFocus" type="email" placeholder="Email">
+        <input v-model="username" v-on:focus="handleFocus" :class="{error : validationEmail}" type="email" name="username" placeholder="Email">
+        <transition name="fade">
+          <small v-if="validationEmail" class="error">{{validationEmail}}</small>
+        </transition>
       </fieldset>
 
       <fieldset class="icon icon--pass">
-        <input v-model="password" v-on:focus="handleFocus" type="password" name="pass" placeholder="Password">
+        <input v-model="password" v-on:focus="handleFocus" :class="{error : validationPassword}" type="password" name="password" placeholder="Password">
+          <small v-if="validationPassword" class="error">{{validationPassword}}</small>
       </fieldset>
 
       <button type="submit" class="pure-button pure-button-primary">Sign in</button>
     </form>
-  </div>
+  </section>
 </template>
 
 <script>
-  import axios from 'axios';
   import Loader from './Loader.vue';
 
   export default {
     components: {
       Loader
     },
-    data: function() {
+    data: function(){
       return {
         username: '',
         password: ''
       }
     },
     computed: {
-      isLoading: function() {
-        return this.$store.getters.isLoading;
+      isLoading: function(){
+        return this.$store.getters.authStatus == 'loading';
       },
-      errors: function() {
-        return this.$store.getters.getErrors;
+      errors: function(){
+        return this.$store.getters.errors;
       },
-      errorMessage: function() {
-        return this.errors && (this.errors.message || this.errors.info)
-            ? ' - ' + (this.errors.message || this.errors.info)
-            : null;
+      validationMessage: function(){
+        return this.errors && (this.errors.info || this.errors.message)
+             ? (this.errors.info || this.errors.message) : null;
       },
-      submitData: function() {
+      validationEmail: function(){
+        return this.validationMessage && this.validationMessage.indexOf('secret') == -1 ? this.validationMessage : null;
+      },
+      validationPassword: function(){
+        return this.validationMessage && this.validationMessage.indexOf('secret') != -1 ? this.validationMessage : null;
+      },
+      submitData: function(){
         return {
           'username': this.username,
           'password': this.password
@@ -53,15 +61,18 @@
       }
     },
     methods: {
-      handleFocus: function() {
-        this.$store.dispatch('clearErrors')
+      handleFocus: function(){
+        this.clearErrors();
       },
-      handleErrors: function() {
+      clearErrors: function(error){
+        this.$store.dispatch('clearErrors', error || '');
       },
-      submit: function() {
-        this.handleErrors();
+      submit:  function(){
         this.$store.dispatch('login', this.submitData);
       }
+    },
+    mounted: function(){
+      this.clearErrors()
     }
   }
 </script>
@@ -79,7 +90,7 @@
     border-radius: 2px;
     background-color: white;
     box-shadow: 0 0 3px rgba(0,0,0,0.3);
-    transform: translateY(-3em);
+    transform: translateY(-2em);
     box-sizing: border-box;
   }
   .icon {
@@ -98,7 +109,7 @@
   .login-form .icon input {
     padding-left: 35px;
   }
-  samp.error {
+  .error {
     color: #b94a48;
   }
   .login-form legend {
